@@ -10,6 +10,7 @@ from collections import defaultdict
 import json
 class Visual7wTell():
     def __init__(self,file=None):
+        '''param: filename full path for Telling task.'''
         self.data = json.load(open(file,'r'))
         self.imgidtoqid = defaultdict(list)
         self.imgidtosplit = {} #val test train
@@ -21,6 +22,7 @@ class Visual7wTell():
                 self.qidtoqa[qa.get('qa_id')]=qa
 
     def getQuesIds(self,quesType):
+        '''Return all the question id starting from questType'''
         quesids=[]    
         if not len(quesType) == 0:
             for qid in self.qidtoqa.keys():
@@ -30,6 +32,7 @@ class Visual7wTell():
             return quesids
 
     def getCountquesids(self):
+        '''Return all the question id starting from how many for counting'''
         qids = self.getQuesIds(quesType='how')
         quesids=[]
         if not len(qids) == 0:
@@ -41,6 +44,8 @@ class Visual7wTell():
 
   
     def showQA(self,qid):
+        '''param: qid -- question id
+        Show QA in presentable format'''
         qa= self.qidtoqa[qid]
         print ("Img id: ",qa.get('image_id'))
         print (qa.get('question'))
@@ -48,12 +53,14 @@ class Visual7wTell():
 
 
     def info(self):
+        '''show info'''
         print ("======= ",self.data.get('dataset'),self.data.get('version')," ======= ")
 
         
  
 class Visual7wPoint():
     def __init__(self,file=None):
+        '''param: filename full path for Pointing task.'''
         self.data = json.load(open(file,'r'))
         self.imgidtoqid = defaultdict(list)
         self.imgidtosplit = {} #val test train
@@ -70,10 +77,13 @@ class Visual7wPoint():
             self.boxidtobox[box.get('box_id')] = box      
 
     def getQuesIds(self):
+        '''Return all the question id starting from which'''
         return list(self.qidtoqa.keys())
                      
 
     def showQA(self,qid):
+        '''param: qid -- question id
+        Show QA in presentable format'''
         qa= self.qidtoqa[qid]
         #multiple_choices = 
         print ("Multiple choices: ",qa.get('multiple_choices'))
@@ -83,4 +93,5 @@ class Visual7wPoint():
                 
                 
     def info(self):
+        '''show info'''
         print ("======= ",self.data.get('dataset'),self.data.get('version')," ======= ")
